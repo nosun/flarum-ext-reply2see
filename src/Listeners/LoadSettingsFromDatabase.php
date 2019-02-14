@@ -1,12 +1,12 @@
 <?php
 
-namespace WiseClock\Reply2See\Listeners;
+namespace Kvothe\ReplyToSee\Listeners;
 
 use Flarum\Api\Serializer\PostSerializer;
-use Flarum\Event\PrepareApiAttributes;
+use Flarum\Api\Event\Serializing;
 use Illuminate\Contracts\Events\Dispatcher;
 use Symfony\Component\Translation\TranslatorInterface;
-use Flarum\Core\Post\CommentPost;
+use Flarum\Post\CommentPost;
 
 class LoadSettingsFromDatabase
 {
@@ -19,18 +19,19 @@ class LoadSettingsFromDatabase
 
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(PrepareApiAttributes::class, [$this, 'prepareApiAttributes']);
+        $events->listen(Serializing::class, [$this, 'prepareApiAttributes']);
     }
 
-    public function prepareApiAttributes(PrepareApiAttributes $event)
+    public function prepareApiAttributes(Serializing $event)
     {
         if ($event->isSerializer(PostSerializer::class) && $event->model instanceof CommentPost)
         {
+            //echo ($event->model);
             $newHTML = $event->attributes['contentHtml'];
             if (strpos($newHTML, '<reply2see>') === false)
                 return;
 
-            $isStartPost = $event->model['relations']['discussion']->start_post_id == $event->model->id;
+            $isStartPost = $event->model['discussion']->first_post_id == $event->model->id;
             if (!$isStartPost)
             {
                 $newHTML = preg_replace('/<reply2see>(.*?)<\/reply2see>/is', '<div>$1</div>', $newHTML);
@@ -38,7 +39,7 @@ class LoadSettingsFromDatabase
                 return;
             }
 
-            $usersModel = $event->model['relations']['discussion']->participants()->get('id');
+            $usersModel = $event->model['discussion']->participants()->get('id');
             $users = array();
             foreach ($usersModel as $user)
             {
