@@ -1,5 +1,5 @@
 {
-  "name": "kvothe/reply-to-see",
+  "name": "nosun/reply-to-see",
   "description": "Adds a reply to see BBCODE.",
   "keywords": [
     "flarum"
@@ -7,17 +7,17 @@
   "type": "flarum-extension",
   "license": "MIT",
   "require": {
-    "flarum/core": "^0.1.0-beta.8"
+    "flarum/core": "^1.0"
   },
   "authors": [
     {
-      "name": "Kvothe",
+      "name": "nosun",
       "role": "Developer"
     }
   ],
   "autoload": {
     "psr-4": {
-      "Kvothe\\ReplyToSee\\": "src/"
+      "Nosun\\ReplyToSee\\": "src/"
     }
   },
   "extra": {

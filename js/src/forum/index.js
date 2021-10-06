@@ -1,12 +1,13 @@
-import {extend} from 'flarum/extend';
-import app from 'flarum/app';
-import CommentPost from 'flarum/components/CommentPost';
-import DiscussionPage from 'flarum/components/DiscussionPage';
-import DiscussionControls from 'flarum/utils/DiscussionControls';
-import LogInModal from 'flarum/components/LogInModal';
+import {extend} from 'flarum/common/extend';
+import app from 'flarum/common/app';
+import CommentPost from 'flarum/common/components/CommentPost';
+import DiscussionPage from 'flarum/common/components/DiscussionPage';
+import DiscussionControls from 'flarum/common/utils/DiscussionControls';
+import LogInModal from 'flarum/common/components/LogInModal';
 
-app.initializers.add('kvothe/reply-to-see', () => {
-	extend(CommentPost.prototype, 'config', function()
+
+app.initializers.add('nosun/reply-to-see', () => {
+	extend(CommentPost.prototype, 'content', function()
 	{
 	    if (app.session.user && app.current instanceof DiscussionPage)
 	        $('.reply2see_reply').off('click').on('click',
@@ -14,7 +15,7 @@ app.initializers.add('kvothe/reply-to-see', () => {
 	        );
 	    else
 	        $('.reply2see_reply').off('click').on('click',
-	            () => app.modal.show(new LogInModal())
+	            () => app.modal.show(LogInModal)
 	        );
 	});
 });

@@ -1,21 +1,23 @@
 <?php
 
 /*
- * This file is part of kvothe/reply-to-see.
+ * This file is part of nosun/reply-to-see.
  *
  * Copyright (c) 2019
- * Original Extension by WiseClock 
+ * Original Extension by WiseClock
  * Updated by Kvothe
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
-namespace Kvothe\ReplyToSee;
+namespace Nosun\ReplyToSee;
 
+use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Extend;
 use Flarum\Extend\Formatter;
 use Illuminate\Contracts\Events\Dispatcher;
+use Nosun\ReplyToSee\Listeners\LoadSettingsFromDatabase;
 use s9e\TextFormatter\Configurator;
 
 return [
@@ -30,9 +32,7 @@ return [
 	        );
    		 }),
     new Extend\Locales(__DIR__ . '/resources/locale'),
-	function (Dispatcher $events){
-	    $events->subscribe(Listeners\LoadSettingsFromDatabase::class);
-	}
-	
+    (new Extend\ApiSerializer(PostSerializer::class))
+        ->attributes(HideContentInPosts::class),
 
 ];
