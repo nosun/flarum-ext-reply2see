@@ -15,9 +15,6 @@ namespace Nosun\ReplyToSee;
 
 use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Extend;
-use Flarum\Extend\Formatter;
-use Illuminate\Contracts\Events\Dispatcher;
-use Nosun\ReplyToSee\Listeners\LoadSettingsFromDatabase;
 use s9e\TextFormatter\Configurator;
 
 return [
@@ -26,7 +23,7 @@ return [
         ->css(__DIR__.'/resources/less/forum.less'),
     (new Extend\Formatter)
 	    ->configure(function (Configurator $config) {
-	        $config->BBcodes->addCustom(
+	        $config->BBCodes->addCustom(
 	            '[REPLY]{TEXT}[/REPLY]',
 	            '<reply2see>{TEXT}</reply2see>'
 	        );
