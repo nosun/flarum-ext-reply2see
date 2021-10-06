@@ -2,8 +2,6 @@
 
 namespace Nosun\ReplyToSee;
 
-use JSLirola\Login2SeePlus\FormatContent;
-
 class HideContentInPosts extends FormatContent
 {
     public function __invoke($serializer, $model, $attributes)
